@@ -1,0 +1,147 @@
+﻿tm_transfer_titles = {
+    picture = {
+        reference =  "gfx/interface/illustrations/decisions/decision_realm.dds"
+    }
+    title = tm_transfer_titles
+    desc = tm_transfer_titles_desc
+    decision_group_type = major
+
+    is_shown = {
+        AND = {
+            exists = var:tm_target_title
+            exists = var:tm_designee_title
+            var:tm_target_title.tier >= tier_county # baronies don't work for some reason, seems hardcoded
+            var:tm_target_title.tier < var:tm_designee_title.tier # can't transfer a bigger title to a smaller one
+        }
+    }
+
+    ai_potential = { always = no }
+    ai_check_interval = 0
+
+    effect = {
+        var:tm_target_title = {
+            set_de_jure_liege_title = prev.var:tm_designee_title
+        }
+    }
+}
+
+tm_consolidate_equal_titles = {
+    picture = {
+        reference =  "gfx/interface/illustrations/decisions/decision_realm.dds"
+    }
+    title = tm_consolidate_equal_titles
+    desc = tm_consolidate_equal_titles_desc
+    decision_group_type = major
+
+    is_shown = {
+        AND = {
+            exists = var:tm_target_title
+            exists = var:tm_designee_title
+            var:tm_target_title.tier >= tier_duchy # counties and below can't be consolidated.
+            var:tm_target_title.tier = var:tm_designee_title.tier # must be the same tier
+            NOT = { var:tm_target_title = var:tm_designee_title } # stupid logic check
+        }
+    }
+
+    ai_potential = { always = no }
+    ai_check_interval = 0
+
+    effect = {
+        var:tm_designee_title = {
+            save_scope_as = designee_title
+        }
+        var:tm_target_title = {
+            every_in_de_jure_hierarchy = {
+                set_de_jure_liege_title = scope:designee_title
+            }
+        }
+    }
+}
+
+tm_clear_flags = {
+    picture = {
+        reference =  "gfx/interface/illustrations/decisions/decision_misc.dds"
+    }
+    title = tm_clear_flags
+    desc = tm_clear_flags_desc
+    decision_group_type = major
+
+    is_shown = {
+        AND = {
+            exists = var:tm_target_title
+            exists = var:tm_designee_title
+        }
+    }
+
+    ai_potential = { always = no }
+    ai_check_interval = 0
+
+    effect = {
+        remove_variable = tm_target_title
+        remove_variable = tm_designee_title
+    }
+}
+
+tm_change_de_jure_capital = {
+    picture = {
+        reference =  "gfx/interface/illustrations/decisions/decision_realm.dds"
+    }
+    title = tm_change_de_jure_capital
+    desc = tm_change_de_jure_capital_desc
+    decision_group_type = major
+
+
+    is_shown = {
+        AND = {
+            exists = var:tm_target_title
+            exists = var:tm_designee_title
+			var:tm_target_title.tier = tier_county # only counties can be capitals
+            var:tm_target_title = {
+                target_is_de_jure_liege_or_above = prev.var:tm_designee_title # and obviously the capital must be part of the de jure realm
+              }
+        }
+    }
+
+    ai_potential = { always = no }
+    ai_check_interval = 0
+
+    effect = {
+		hidden_effect = {
+			var:tm_target_title = {
+				save_scope_as = tm_new_cap
+			}
+			var:tm_designee_title = {
+				set_capital_county = prev.var:tm_target_title
+			}
+			if = { # moving just the duchy capital building (not kingdom, empire, etc.)
+				limit = {
+					var:tm_designee_title = { tier = tier_duchy }
+				}
+				var:tm_target_title = { # necessary to move the duchy building slot.
+					duchy = { save_scope_as = current_duchy }
+					random_duchy = {
+						limit = {
+							NOT = { this = scope:current_duchy }
+							is_noble_family_title = no
+							is_mercenary_company = no
+						}
+						save_scope_as = dummy_duchy
+					}
+					scope:current_duchy = { # take out all other counties from the duchy...
+						every_de_jure_county = {
+							limit = { # (except the new capital)
+								NOT = { this = scope:tm_new_cap }
+							}
+							set_de_jure_liege_title = scope:dummy_duchy
+							add_to_list = dummy_list
+						}
+					}
+					every_in_list = { #... and put them back in. The new capital (only county left) gets duchy building.
+						list = dummy_list
+						set_de_jure_liege_title = scope:current_duchy
+					}
+				}
+			}
+		}
+    }
+}

@@ -1,0 +1,70 @@
+﻿TM_set_target = {
+    scope = landed_title
+    saved_scopes = {
+        target_character
+    }
+
+    is_shown = {
+      OR = {
+        tier = tier_county
+        tier = tier_duchy
+        tier = tier_kingdom
+        tier = tier_empire
+        tier = tier_hegemony
+      }
+    }
+
+    is_valid = {
+      OR = {
+        tier = tier_county
+        tier = tier_duchy
+        tier = tier_kingdom
+        tier = tier_empire
+        tier = tier_hegemony
+      }
+    }
+
+    effect = {
+      scope:target_character = {
+        set_variable = {
+          name = tm_target_title
+          value = PREV
+        }
+      }
+    }
+}
+
+TM_set_designee = {
+    scope = landed_title
+    saved_scopes = {
+        target_character
+    }
+
+    is_shown = {
+      OR = {
+        tier = tier_county
+        tier = tier_duchy
+        tier = tier_kingdom
+        tier = tier_empire
+        tier = tier_hegemony
+      }
+    }
+    is_valid = {
+     OR = {
+        tier = tier_county
+        tier = tier_duchy
+        tier = tier_kingdom
+        tier = tier_empire
+        tier = tier_hegemony
+      }
+    }
+
+    effect = {
+      scope:target_character = {
+        set_variable = {
+          name = tm_designee_title
+          value = PREV
+        }
+      }
+    }
+}

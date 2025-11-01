@@ -1,0 +1,17 @@
+﻿l_spanish:
+tm_transfer_titles:0 "Transferir títulos"
+tm_transfer_titles_desc:0 "Haga que el título del destinatario sea el [de_jure|E] heredero del título de destino".
+tm_transfer_titles_confirm:0 "¡Transfiere los títulos!"
+tm_transfer_titles_tooltip:0 ""
+tm_clear_flags:0 "Borrar títulos de destino y designado"
+tm_clear_flags_desc:0 "Borra las variables de título de destino y designado. Úselo si no desea que la decisión del título de transferencia esté disponible constantemente".
+tm_clear_flags_confirm:0 "¡Borre las variables!"
+tm_clear_flags_tooltip:0 ""
+tm_change_de_jure_capital:0 "Cambiar la capital de Jure"
+tm_change_de_jure_capital_desc:0 "Establezca el condado de destino como la nueva [de_jure_capital|E] de su título de receptor".
+tm_change_de_jure_capital_confirm:0 "¡Cambie la capital de jure!"
+tm_change_de_jure_capital_tooltip:0 ""
+tm_target_titles:0 "Título de destino"
+tm_target_titles_tooltip:0 "Designe [TitleViewWindow.GetTitle.GetNameNoTooltip] como el título que será transferido por el Administrador de títulos".
+tm_receiver_titles:0 "Título del receptor"
+tm_receiver_titles_tooltip:0 "Designe [TitleViewWindow.GetTitle.GetNameNoTooltip] como el destinatario del título [de_jure|E] del Administrador de títulos".
